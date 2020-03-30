@@ -33,11 +33,13 @@ void Tarefa::itemUmA()
 			u->at(i) = uAnterior->at(i) + deltaT * ((uAnterior->at(i - 1) - (2.0 * uAnterior->at(i)) + uAnterior->at(i + 1)) / (deltaX * deltaX) + f(k, i, 'a'));
 			erro->at(i) = abs(uReal(k + 1, i, 'a') - u->at(i));
 		}
-		uAnterior = u;
+		*uAnterior = *u;
+		std::fill(u->begin(), u->end(), 0);
+		std::cout << "Progresso: " << std::defaultfloat << (100 * (double)k) / (double)M << "%" << std::endl;
 		if (*std::max_element(erro->begin(), erro->end()) > ErroMax)
 			ErroMax = *std::max_element(erro->begin(), erro->end());
 	}
-	printLine(*u, fileU);
+	printLine(*uAnterior, fileU);
 
 	std::cout << std::endl << "Erro maximo: \n" << std::scientific << ErroMax << std::endl;
 
