@@ -23,8 +23,7 @@ private:
 	double deltaT = 0; 
 	double deltaX = 0;
 	double p = 0.25;
-	std::vector<std::vector<double> > *u;
 	double f(int k, int i, char ch);
 	double uReal(int k, int i, char ch);
-	void printMatrix(std::vector<std::vector<double> > mat, std::ostream& output, std::string message);
+	void printLine(std::vector<double> line, std::ostream& output);
 };
