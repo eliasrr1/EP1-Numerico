@@ -19,7 +19,7 @@ void Tarefa::itemUmA()
 {
 	std::vector<std::vector<double> > erro(M + 1, std::vector<double>(N + 1, 0));
 	std::ofstream file;
-	file.open("Output.txt", std::ios::trunc);
+	file.open("Output1A.txt", std::ios::trunc);
 	for (int k = 0; k < M; k++) {
 		for (int i = 1; i < N; i++) {
 			u->at(k + 1).at(i) = u->at(k).at(i) + deltaT * ((u->at(k).at(i - 1) - (2.0 * u->at(k).at(i)) + u->at(k).at(i + 1)) / (deltaX * deltaX) + f(k, i, 'a'));
@@ -60,7 +60,7 @@ void Tarefa::itemUmB()
 
 	std::vector<std::vector<double> > erro(M + 1, std::vector<double>(N + 1, 0));
 	std::ofstream file;
-	file.open("Output.txt", std::ios::trunc);
+	file.open("Output1B.txt", std::ios::trunc);
 	for (int k = 0; k < M; k++) {
 		for (int i = 1; i < N; i++) {
 			u->at(k + 1).at(i) = u->at(k).at(i) + deltaT * ((u->at(k).at(i - 1) - (2.0 * u->at(k).at(i)) + u->at(k).at(i + 1)) / (deltaX * deltaX) + f(k, i, 'b'));
@@ -82,6 +82,17 @@ void Tarefa::itemUmB()
 
 void Tarefa::itemUmC()
 {
+	std::vector<std::vector<double> > erro(M + 1, std::vector<double>(N + 1, 0));
+	std::ofstream file;
+	file.open("Output1C.txt", std::ios::trunc);
+	for (int k = 0; k < M; k++) {
+		for (int i = 1; i < N; i++) {
+			u->at(k + 1).at(i) = u->at(k).at(i) + deltaT * ((u->at(k).at(i - 1) - (2.0 * u->at(k).at(i)) + u->at(k).at(i + 1)) / (deltaX * deltaX) + f(k, i, 'c'));
+		}
+	}
+
+	printMatrix(*u, file, "Matriz U calculada");
+	std::cout << "Finalizado. Resultados impressos em arquivo." << std::endl;
 }
 
 void Tarefa::itemDoisA()
@@ -104,8 +115,10 @@ double Tarefa::f(int k, int i, char ch)
 		return (10 * x * x * (x - 1) - 60 * x * t + 20 * t);
 	else if (ch == 'b')
 		return (5 * (exp(t - x)) * (5 * t * t * cos(5 * t * x) - 2 * t * sin(5 * t * x) - x * sin(5 * t * x)));
+	else if (x >= (p - deltaX / 2) && x <= (p + deltaX / 2))
+		return (10000 * (1 - 2 * t * t) / deltaX);
 	else
-		return 1;
+		return 0;
 }
 
 double Tarefa::uReal(int k, int i, char ch)
@@ -114,10 +127,8 @@ double Tarefa::uReal(int k, int i, char ch)
 	double x = deltaX * i;
 	if (ch == 'a')
 		return (10 * x * x * (x - 1) * t);
-	else if (ch == 'b')
-		return (exp(t - x)  * cos(5 * t * x));
 	else
-		return 1;
+		return (exp(t - x) * cos(5 * t * x));
 }
 
 void Tarefa::printMatrix(std::vector<std::vector<double> > mat, std::ostream& output, std::string message)

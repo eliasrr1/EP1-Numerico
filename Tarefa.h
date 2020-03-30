@@ -16,10 +16,13 @@ public:
 	void itemDoisA();
 	void itemDoisB();
 	void itemDoisC();
+
 private:
 	int N = 0;
 	int M = 0;
-	double deltaT, deltaX = 0;
+	double deltaT = 0; 
+	double deltaX = 0;
+	double p = 0.25;
 	std::vector<std::vector<double> > *u;
 	double f(int k, int i, char ch);
 	double uReal(int k, int i, char ch);

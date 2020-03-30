@@ -34,7 +34,7 @@ void menu() {
 			tarefa.itemUmB();
 		}
 		else if (item == 'c') {
-			//tarefa.itemUmC();
+			tarefa.itemUmC();
 		}
 		else {
 			throw new std::invalid_argument("Digite apenas uma letra de A a C");
