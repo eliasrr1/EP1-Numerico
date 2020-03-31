@@ -34,8 +34,6 @@ void Tarefa::itemUmA()
 			erro->at(i) = abs(uReal(k + 1, i, 'a') - u->at(i));
 		}
 		*uAnterior = *u;
-		std::fill(u->begin(), u->end(), 0);
-		std::cout << "Progresso: " << std::defaultfloat << (100 * (double)k) / (double)M << "%" << std::endl;
 		if (*std::max_element(erro->begin(), erro->end()) > ErroMax)
 			ErroMax = *std::max_element(erro->begin(), erro->end());
 	}
@@ -54,9 +52,9 @@ void Tarefa::itemUmB()
 	std::vector<double>* erro = new std::vector<double>(N + 1, 0);
 	std::ofstream fileU, fileE;
 	double ErroMax = 0;
-	fileU.open("Output1A.txt", std::ios::trunc);
+	fileU.open("Output1B.txt", std::ios::trunc);
 	fileU << std::endl << "Matriz U calculada" << std::endl;
-	fileE.open("Erro1A.txt", std::ios::trunc);
+	fileE.open("Erro1B.txt", std::ios::trunc);
 	fileE << std::endl << "Erro" << std::endl;
 
 	// definição das condições de fronteira
@@ -76,11 +74,11 @@ void Tarefa::itemUmB()
 			u->at(i) = uAnterior->at(i) + deltaT * ((uAnterior->at(i - 1) - (2.0 * uAnterior->at(i)) + uAnterior->at(i + 1)) / (deltaX * deltaX) + f(k, i, 'b'));
 			erro->at(i) = abs(uReal(k + 1, i, 'a') - u->at(i));
 		}
-		uAnterior = u;
+		*uAnterior = *u;
 		if (*std::max_element(erro->begin(), erro->end()) > ErroMax)
 			ErroMax = *std::max_element(erro->begin(), erro->end());
 	}
-	printLine(*u, fileU);
+	printLine(*uAnterior, fileU);
 
 	std::cout << std::endl << "Erro maximo: \n" << std::scientific << ErroMax << std::endl;
 
@@ -89,20 +87,24 @@ void Tarefa::itemUmB()
 
 void Tarefa::itemUmC()
 {
-	/*
-	std::vector<std::vector<double> > erro(M + 1, std::vector<double>(N + 1, 0));
-	std::ofstream file;
-	file.open("Output1C.txt", std::ios::trunc);
-	for (int k = 0; k < M; k++) {
-		for (int i = 1; i < N; i++) {
-			u->at(k + 1).at(i) = u->at(k).at(i) + deltaT * ((u->at(k).at(i - 1) - (2.0 * u->at(k).at(i)) + u->at(k).at(i + 1)) / (deltaX * deltaX) + f(k, i, 'c'));
-		}
-	}
+	std::vector<double>* u = new std::vector<double>(N + 1, 0);
+	std::vector<double>* uAnterior = new std::vector<double>(N + 1, 0);
+	std::ofstream fileU;
+	double ErroMax = 0;
+	fileU.open("Output1C.txt", std::ios::trunc);
+	fileU << std::endl << "Matriz U calculada" << std::endl;
 
-	file << std::endl << "Matriz U calculada" << std::endl;
-	printLine(*u, file);
+	for (int k = 0; k < M; k++) {
+		double t = deltaT * k;
+		printLine(*uAnterior, fileU);
+		for (int i = 1; i < N; i++) {
+			u->at(i) = uAnterior->at(i) + deltaT * ((uAnterior->at(i - 1) - (2.0 * uAnterior->at(i)) + uAnterior->at(i + 1)) / (deltaX * deltaX) + f(k, i, 'c'));
+		}
+		*uAnterior = *u;
+	}
+	printLine(*uAnterior, fileU);
+
 	std::cout << "Finalizado. Resultados impressos em arquivo." << std::endl;
-	*/
 }
 
 void Tarefa::itemDoisA()
