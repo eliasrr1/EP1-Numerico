@@ -109,6 +109,45 @@ void Tarefa::itemUmC()
 
 void Tarefa::itemDoisA()
 {
+	std::vector<double>* diag = new std::vector<double>(N - 1, 0);
+	std::vector<double>* sub = new std::vector<double>(N - 2, 0);
+	std::vector<double>* b = new std::vector<double>(N - 1, 0);
+	std::ifstream entrada;
+	entrada.open("Entrada.txt");
+	if (entrada.fail()) {
+		entrada.close();
+		throw new std::invalid_argument("Arquivo nao encontrado.");
+	}
+
+	if (entrada.eof()) {
+		entrada.close();
+		throw new std::invalid_argument("Arquivo vazio.");
+	}
+
+	for (int i = 0; i < N - 1; i++) {
+		if (entrada.get() == '\n' || !entrada.good()) {
+			entrada.close();
+			throw new std::invalid_argument("Erro de formatacao.");
+		}
+		entrada >> diag->at(i);
+	}
+	for (int i = 0; i < N - 2; i++) {
+		if (entrada.get() == '\n' || !entrada.good()) {
+			entrada.close();
+			throw new std::invalid_argument("Erro de formatacao.");
+		}
+		entrada >> sub->at(i);
+	}
+	for (int i = 0; i < N - 1; i++) {
+		if (entrada.get() == '\n' || !entrada.good()) {
+			entrada.close();
+			throw new std::invalid_argument("Erro de formatacao.");
+		}
+		entrada >> b->at(i);
+	}
+
+
+
 }
 
 void Tarefa::itemDoisB()

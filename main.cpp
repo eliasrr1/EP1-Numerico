@@ -1,5 +1,4 @@
 #include <iostream>
-#include <stdexcept>
 #include "Tarefa.h"
 
 void menu();
@@ -14,13 +13,14 @@ void menu() {
 	std::cout << "Escolha a opcao: ";
 	std::cin >> tarefa;
 
+	int N, M;
+	std::cout << std::endl << "Digite o valor de N: ";
+	std::cin >> N;
+	std::cout << "Digite o valor de M: ";
+	std::cin >> M;
+	std::cout << "Valor de lambda = " << ((double)N*(double)N) / M << std::endl;
+
 	if (tarefa == 1) {
-		int N, M;
-		std::cout << std::endl << "Digite o valor de N: ";
-		std::cin >> N;
-		std::cout << "Digite o valor de M: ";
-		std::cin >> M;
-		std::cout << "Valor de lambda = " << ((double)N*(double)N) / M << std::endl;
 
 		Tarefa tarefa(N, M);
 
@@ -42,11 +42,17 @@ void menu() {
 		menu();
 	}
 	else if (tarefa == 2) {
+
+		Tarefa tarefa(N, M);
+
 		std::cout << std::endl << "Digite o item que deseja rodar: ";
 		std::cin >> item;
 		item = (char)tolower(item);
 		if (item == 'a') {
-			//item_2a();
+			std::cout << std::endl << "Siga as instrucoes do README. Para prosseguir, pressione [Enter]" << std::endl;
+			std::cin.ignore();
+			while (getchar() != '\n');
+			tarefa.itemDoisA();
 		}
 		else if (item == 'b') {
 			//item_2b();
