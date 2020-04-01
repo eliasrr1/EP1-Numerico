@@ -65,14 +65,14 @@ void Tarefa::itemUmB()
 	}
 
 	for (int k = 0; k < M; k++) {
-		double t = deltaT * k;
+		double t = deltaT * (k + 1.0);
 		printLine(*uAnterior, fileU);
 		printLine(*erro, fileE);
-		u->at(0) = exp(-t);
+		u->at(0) = exp(t);
 		u->at(N) = exp(t - 1) * cos(5 * t);
 		for (int i = 1; i < N; i++) {
 			u->at(i) = uAnterior->at(i) + deltaT * ((uAnterior->at(i - 1) - (2.0 * uAnterior->at(i)) + uAnterior->at(i + 1)) / (deltaX * deltaX) + f(k, i, 'b'));
-			erro->at(i) = abs(uReal(k + 1, i, 'a') - u->at(i));
+			erro->at(i) = abs(uReal(k + 1, i, 'b') - u->at(i));
 		}
 		*uAnterior = *u;
 		if (*std::max_element(erro->begin(), erro->end()) > ErroMax)
