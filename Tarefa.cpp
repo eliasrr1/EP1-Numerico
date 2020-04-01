@@ -146,7 +146,7 @@ double Tarefa::uReal(int k, int i, char ch)
 void Tarefa::printLine(std::vector<double> line, std::ostream& output)
 {
 	for (int i = 0; i <= N; i++) {
-		output << std::fixed << line.at(i) << " ";
+		output << std::scientific << line.at(i) << " ";
 	}
 	output << std::endl;
 }
