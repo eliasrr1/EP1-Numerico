@@ -114,40 +114,78 @@ void Tarefa::itemDoisA()
 	std::vector<double>* b = new std::vector<double>(N - 1, 0);
 	std::ifstream entrada;
 	entrada.open("Entrada.txt");
+
+	std::ofstream saida;
+	saida.open("Output2A.txt", std::ios::trunc);
 	if (entrada.fail()) {
 		entrada.close();
 		throw new std::invalid_argument("Arquivo nao encontrado.");
 	}
 
+	
 	if (entrada.eof()) {
 		entrada.close();
 		throw new std::invalid_argument("Arquivo vazio.");
 	}
-
+	
 	for (int i = 0; i < N - 1; i++) {
-		if (entrada.get() == '\n' || !entrada.good()) {
+		if (!entrada.good()) {
 			entrada.close();
 			throw new std::invalid_argument("Erro de formatacao.");
 		}
 		entrada >> diag->at(i);
 	}
 	for (int i = 0; i < N - 2; i++) {
-		if (entrada.get() == '\n' || !entrada.good()) {
+		if (!entrada.good()) {
 			entrada.close();
 			throw new std::invalid_argument("Erro de formatacao.");
 		}
 		entrada >> sub->at(i);
 	}
 	for (int i = 0; i < N - 1; i++) {
-		if (entrada.get() == '\n' || !entrada.good()) {
+		if (!entrada.good()) {
 			entrada.close();
 			throw new std::invalid_argument("Erro de formatacao.");
 		}
 		entrada >> b->at(i);
 	}
 
+	//Determinacao de D e L
+	std::vector<double>* d = new std::vector<double>(N - 1, 0);
+	std::vector<double>* l = new std::vector<double>(N - 2, 0);
 
+	double somaD = 0;
+	for (int i = 0; i < N - 2; i++) {
+		d->at(i) = diag->at(i) - somaD;
+		l->at(i) = sub->at(i) / d->at(i);
+		somaD = l->at(i) * l->at(i) * d->at(i);
+	}
+	d->at(N - 2) = diag->at(N - 2) - somaD;
 
+	//Resolucao do sistema
+
+	std::vector<double>* x = new std::vector<double>(N - 1, 0);
+
+	double somaX = 0;
+	for (int i = 0; i < N - 2; i++) {
+		x->at(i) = b->at(i) - somaX;
+		somaX = l->at(i) * x->at(i);
+	}
+	x->at(N - 2) = b->at(N - 2) - somaX;
+
+	for (int i = 0; i < N - 1; i++) {
+		x->at(i) = x->at(i) / d->at(i);
+	}
+
+	somaX = 0;
+	x->at(N - 2) = x->at(N - 2) - somaX;
+	for (int i = N - 3; i >= 0 ; i--) {
+		somaX = l->at(i) * x->at(i + 1);
+		x->at(i) = x->at(i) - somaX;
+	}
+
+	printLine(*x, saida);
+	std::cout << "Finalizado. Resultados impressos em arquivo." << std::endl;
 }
 
 void Tarefa::itemDoisB()
@@ -184,7 +222,7 @@ double Tarefa::uReal(int k, int i, char ch)
 
 void Tarefa::printLine(std::vector<double> line, std::ostream& output)
 {
-	for (int i = 0; i <= N; i++) {
+	for (int i = 0; i < line.size(); i++) {
 		output << std::scientific << line.at(i) << " ";
 	}
 	output << std::endl;
