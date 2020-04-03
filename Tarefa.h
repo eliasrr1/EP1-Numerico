@@ -27,4 +27,5 @@ private:
 	double f(int k, int i, char ch);
 	double uReal(int k, int i, char ch);
 	void printLine(std::vector<double> line, std::ostream& output);
+	std::vector<double>* solveLDLt(std::vector<double>* diag, std::vector<double>* sub, std::vector<double>* b);
 };
