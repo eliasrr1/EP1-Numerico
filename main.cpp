@@ -12,16 +12,30 @@ void menu() {
 	std::cout << "0 - Sair" << std::endl;
 	std::cout << "Escolha a opcao: ";
 	std::cin >> tarefa;
-
-	int N, M;
-	std::cout << std::endl << "Digite o valor de N: ";
-	std::cin >> N;
-	std::cout << "Digite o valor de M: ";
-	std::cin >> M;
-	std::cout << "Valor de lambda = " << ((double)N*(double)N) / M << std::endl;
+	if (!std::cin) {
+		std::cin.clear();
+		std::cin.ignore(INT_MAX, '\n');
+		throw new std::invalid_argument("Digite um numero");
+	}
 
 	if (tarefa == 1) {
 
+		int N, M;
+		std::cout << std::endl << "Digite o valor de N: ";
+		std::cin >> N;
+		if (!std::cin) {
+			std::cin.clear();
+			std::cin.ignore(INT_MAX, '\n');
+			throw new std::invalid_argument("Digite um numero");
+		}
+		std::cout << "Digite o valor de M: ";
+		std::cin >> M;
+		if (!std::cin) {
+			std::cin.clear();
+			std::cin.ignore(INT_MAX, '\n');
+			throw new std::invalid_argument("Digite um numero");
+		}
+		std::cout << "Valor de lambda = " << ((double)N * (double)N) / M << std::endl;
 		Tarefa tarefa(N, M);
 
 		std::cout << std::endl << "Digite o item que deseja rodar: ";
@@ -43,7 +57,15 @@ void menu() {
 	}
 	else if (tarefa == 2) {
 
-		Tarefa tarefa(N, M);
+		int N, M;
+		std::cout << std::endl << "Digite o valor de N: ";
+		std::cin >> N;
+		if (!std::cin) {
+			std::cin.clear();
+			std::cin.ignore(INT_MAX, '\n');
+			throw new std::invalid_argument("Digite um numero");
+		}
+		Tarefa tarefa(N, 1);
 
 		std::cout << std::endl << "Digite o item que deseja rodar: ";
 		std::cin >> item;
@@ -55,9 +77,27 @@ void menu() {
 			tarefa.itemDoisA();
 		}
 		else if (item == 'b') {
+			std::cout << "Digite o valor de M: ";
+			std::cin >> M;
+			if (!std::cin) {
+				std::cin.clear();
+				std::cin.ignore(INT_MAX, '\n');
+				throw new std::invalid_argument("Digite um numero");
+			}
+			std::cout << "Valor de lambda = " << ((double)N * (double)N) / M << std::endl;
+			tarefa.setM(M);
 			//item_2b();
 		}
 		else if (item == 'c') {
+			std::cout << "Digite o valor de M: ";
+			std::cin >> M;
+			if (!std::cin) {
+				std::cin.clear();
+				std::cin.ignore(INT_MAX, '\n');
+				throw new std::invalid_argument("Digite um numero");
+			}
+			std::cout << "Valor de lambda = " << ((double)N * (double)N) / M << std::endl;
+			tarefa.setM(M);
 			//item_2c();
 		}
 		else {
@@ -76,7 +116,9 @@ void menu() {
 int main()
 {
 	// INICIO
+	std::cout << "====================" << std::endl;
 	std::cout << "Exercicio Programa 1" << std::endl;
+	std::cout << "====================" << std::endl;
 	bool exception = 0;
 	do {
 		try {
@@ -84,7 +126,7 @@ int main()
 			menu();
 		}
 		catch (std::exception* e) {
-			std::cout << std::endl << "Erro na execucao do programa: " << e->what() << std::endl;
+			std::cout << std::endl << "** Erro na execucao do programa: " << e->what() << "! **" << std::endl;
 			delete e;
 			exception = 1;
 		}
