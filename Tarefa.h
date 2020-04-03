@@ -18,9 +18,6 @@ public:
 	void itemDoisB();
 	void itemDoisC();
 
-	void setN(int N);
-	void setM(int M);
-
 private:
 	int N = 0;
 	int M = 0;

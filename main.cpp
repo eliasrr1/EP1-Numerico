@@ -57,15 +57,16 @@ void menu() {
 	}
 	else if (tarefa == 2) {
 
-		int N, M;
-		std::cout << std::endl << "Digite o valor de N: ";
+		int N;
+		std::cout << std::endl << "Digite o valor de N = M: ";
 		std::cin >> N;
 		if (!std::cin) {
 			std::cin.clear();
 			std::cin.ignore(INT_MAX, '\n');
 			throw new std::invalid_argument("Digite um numero");
 		}
-		Tarefa tarefa(N, 1);
+		Tarefa tarefa(N, N);
+		std::cout << "Valor de lambda = " << N << std::endl;
 
 		std::cout << std::endl << "Digite o item que deseja rodar: ";
 		std::cin >> item;
@@ -77,27 +78,9 @@ void menu() {
 			tarefa.itemDoisA();
 		}
 		else if (item == 'b') {
-			std::cout << "Digite o valor de M: ";
-			std::cin >> M;
-			if (!std::cin) {
-				std::cin.clear();
-				std::cin.ignore(INT_MAX, '\n');
-				throw new std::invalid_argument("Digite um numero");
-			}
-			std::cout << "Valor de lambda = " << ((double)N * (double)N) / M << std::endl;
-			tarefa.setM(M);
 			//item_2b();
 		}
 		else if (item == 'c') {
-			std::cout << "Digite o valor de M: ";
-			std::cin >> M;
-			if (!std::cin) {
-				std::cin.clear();
-				std::cin.ignore(INT_MAX, '\n');
-				throw new std::invalid_argument("Digite um numero");
-			}
-			std::cout << "Valor de lambda = " << ((double)N * (double)N) / M << std::endl;
-			tarefa.setM(M);
 			//item_2c();
 		}
 		else {

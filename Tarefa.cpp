@@ -198,16 +198,6 @@ void Tarefa::itemDoisC()
 
 }
 
-void Tarefa::setN(int N)
-{
-	this->N = N;
-}
-
-void Tarefa::setM(int M)
-{
-	this->M = M;
-}
-
 double Tarefa::f(int k, int i, char ch)
 {
 	double t = deltaT * k;
