@@ -81,7 +81,7 @@ void menu() {
 			tarefa.itemDoisB();
 		}
 		else if (item == 'c') {
-			//item_2c();
+			tarefa.itemDoisC();
 		}
 		else {
 			throw new std::invalid_argument("Digite apenas uma letra de A a C");
