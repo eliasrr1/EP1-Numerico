@@ -8,6 +8,7 @@ Tarefa::Tarefa(int N, int M) : N(N), M(M)
 {
 	deltaT = 1 / (double)M;
 	deltaX = 1 / (double)N;
+	lambda = ((double)N * (double)N) / M;
 }
 
 Tarefa::~Tarefa()
@@ -122,12 +123,12 @@ void Tarefa::itemDoisA()
 		throw new std::invalid_argument("Arquivo nao encontrado.");
 	}
 
-	
+
 	if (entrada.eof()) {
 		entrada.close();
 		throw new std::invalid_argument("Arquivo vazio.");
 	}
-	
+
 	for (int i = 0; i < N - 1; i++) {
 		if (!entrada.good()) {
 			entrada.close();
@@ -156,12 +157,51 @@ void Tarefa::itemDoisA()
 
 void Tarefa::itemDoisB()
 {
+	std::vector<double>* u = new std::vector<double>(N + 1, 0);
+	std::vector<double>* uAnterior = new std::vector<double>(N + 1, 0);
+	std::vector<double>* erro = new std::vector<double>(N + 1, 0);
 
+	std::vector<double>* diag = new std::vector<double>(N - 1, 1 + 2 * lambda);
+	std::vector<double>* sub = new std::vector<double>(N - 2, -lambda);
+	std::vector<double>* b = new std::vector<double>(N - 1, 0);
+	std::vector<double>* temp = new std::vector<double>(N - 1, 0);
+	std::ofstream fileU, fileE;
+	double ErroMax = 0;
+	fileU.open("Output2B.txt", std::ios::trunc);
+	fileU << std::endl << "Matriz U calculada" << std::endl;
+	fileE.open("Erro2B.txt", std::ios::trunc);
+	fileE << std::endl << "Erro" << std::endl;
+
+	// Item B.a
+	printLine(*u, fileU);
+	for (int k = 0; k < M; k++) {
+		u->at(0) = 0;
+		for (int i = 0; i < N - 1; i++) {
+			b->at(i) = uAnterior->at(i + 1) + deltaT * f(k + 1, i + 1, 'a');
+		}
+		temp = solveLDLt(diag, sub, b);
+		std::copy(temp->begin(), temp->end(), u->begin() + 1);
+		u->at(N) = 0;
+		*uAnterior = *u;
+		if (*std::max_element(erro->begin(), erro->end()) > ErroMax)
+			ErroMax = *std::max_element(erro->begin(), erro->end());
+		printLine(*u, fileU);
+		printLine(*erro, fileE);
+	}
+
+	std::cout << std::endl << "Erro maximo: \n" << std::scientific << ErroMax << std::endl;
+
+	std::cout << "Finalizado. Resultados impressos em arquivos." << std::endl;
 }
 
 void Tarefa::itemDoisC()
 {
 
+}
+
+double Tarefa::getLambda()
+{
+	return this->lambda;
 }
 
 double Tarefa::f(int k, int i, char ch)

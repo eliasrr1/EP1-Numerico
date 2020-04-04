@@ -35,8 +35,8 @@ void menu() {
 			std::cin.ignore(INT_MAX, '\n');
 			throw new std::invalid_argument("Digite um numero");
 		}
-		std::cout << "Valor de lambda = " << ((double)N * (double)N) / M << std::endl;
 		Tarefa tarefa(N, M);
+		std::cout << "Valor de lambda = " << tarefa.getLambda() << std::endl;
 
 		std::cout << std::endl << "Digite o item que deseja rodar: ";
 		std::cin >> item;
@@ -66,7 +66,7 @@ void menu() {
 			throw new std::invalid_argument("Digite um numero");
 		}
 		Tarefa tarefa(N, N);
-		std::cout << "Valor de lambda = " << N << std::endl;
+		std::cout << "Valor de lambda = " << tarefa.getLambda() << std::endl;
 
 		std::cout << std::endl << "Digite o item que deseja rodar: ";
 		std::cin >> item;
@@ -78,7 +78,7 @@ void menu() {
 			tarefa.itemDoisA();
 		}
 		else if (item == 'b') {
-			//item_2b();
+			tarefa.itemDoisB();
 		}
 		else if (item == 'c') {
 			//item_2c();

@@ -18,9 +18,12 @@ public:
 	void itemDoisB();
 	void itemDoisC();
 
+	double getLambda();
+
 private:
 	int N = 0;
 	int M = 0;
+	double lambda = 0;
 	double deltaT = 0; 
 	double deltaX = 0;
 	double p = 0.25;
