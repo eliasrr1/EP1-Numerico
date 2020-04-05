@@ -66,7 +66,7 @@ void Tarefa::itemUmB()
 		uAnterior->at(i) = exp(-x);
 	}
 
-	printLine(*u, fileU);
+	printLine(*uAnterior, fileU);
 	printLine(*erro, fileE);
 	for (int k = 0; k < M; k++) {
 		double t = deltaT * (k + 1.0);
@@ -398,7 +398,7 @@ double Tarefa::uReal(int k, int i, char ch)
 
 void Tarefa::printLine(std::vector<double> line, std::ostream& output)
 {
-	for (int i = 0; i < line.size(); i++) {
+	for (unsigned int i = 0; i < line.size(); i++) {
 		output << std::scientific << line.at(i) << " ";
 	}
 	output << std::endl;
