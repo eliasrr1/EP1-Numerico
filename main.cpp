@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Tarefa.h"
+#include <limits.h>
 
 void menu();
 
@@ -36,7 +37,7 @@ void menu() {
 			throw new std::invalid_argument("Digite um numero");
 		}
 		Tarefa tarefa(N, M);
-		std::cout << "Valor de lambda = " << tarefa.getLambda() << std::endl;
+		std::cout << "Valor de lambda = " << std::fixed << tarefa.getLambda() << std::endl;
 
 		std::cout << std::endl << "Digite o item que deseja rodar: ";
 		std::cin >> item;
@@ -66,7 +67,7 @@ void menu() {
 			throw new std::invalid_argument("Digite um numero");
 		}
 		Tarefa tarefa(N, N);
-		std::cout << "Valor de lambda = " << tarefa.getLambda() << std::endl;
+		std::cout << "Valor de lambda = " << std::fixed << tarefa.getLambda() << std::endl;
 
 		std::cout << std::endl << "Digite o item que deseja rodar: ";
 		std::cin >> item;

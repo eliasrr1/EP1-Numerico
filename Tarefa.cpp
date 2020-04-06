@@ -120,33 +120,33 @@ void Tarefa::itemDoisA()
 	saida.open("Output2A.txt", std::ios::trunc);
 	if (entrada.fail()) {
 		entrada.close();
-		throw new std::invalid_argument("Arquivo nao encontrado.");
+		throw new std::invalid_argument("Arquivo nao encontrado");
 	}
 
 
 	if (entrada.eof()) {
 		entrada.close();
-		throw new std::invalid_argument("Arquivo vazio.");
+		throw new std::invalid_argument("Arquivo vazio");
 	}
 
 	for (int i = 0; i < N - 1; i++) {
 		if (!entrada.good()) {
 			entrada.close();
-			throw new std::invalid_argument("Erro de formatacao.");
+			throw new std::invalid_argument("Erro de formatacao");
 		}
 		entrada >> diag->at(i);
 	}
 	for (int i = 0; i < N - 2; i++) {
 		if (!entrada.good()) {
 			entrada.close();
-			throw new std::invalid_argument("Erro de formatacao.");
+			throw new std::invalid_argument("Erro de formatacao");
 		}
 		entrada >> sub->at(i);
 	}
 	for (int i = 0; i < N - 1; i++) {
 		if (!entrada.good()) {
 			entrada.close();
-			throw new std::invalid_argument("Erro de formatacao.");
+			throw new std::invalid_argument("Erro de formatacao");
 		}
 		entrada >> b->at(i);
 	}
