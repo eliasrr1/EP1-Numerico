@@ -15,6 +15,37 @@ Tarefa::~Tarefa()
 {
 }
 
+void Tarefa::itemUmATeste()
+{
+	std::vector<double>* u = new std::vector<double>(N + 1, 0);
+	std::vector<double>* uAnterior = new std::vector<double>(N + 1, 0);
+	std::vector<double>* erro = new std::vector<double>(N + 1, 0);
+	std::ofstream fileU, fileE;
+	double ErroMax = 0;
+	fileU.open("Output1ATeste.txt", std::ios::trunc);
+	fileU << std::endl << "Matriz U calculada" << std::endl;
+	fileE.open("Erro1ATeste.txt", std::ios::trunc);
+	fileE << std::endl << "Erro" << std::endl;
+
+	printLine(*u, fileU);
+	printLine(*erro, fileE);
+	for (int k = 0; k < M; k++) {
+		for (int i = 1; i < N; i++) {
+			u->at(i) = uAnterior->at(i) + deltaT * ((uAnterior->at(i - 1) - (2.0 * uAnterior->at(i)) + uAnterior->at(i + 1)) / (deltaX * deltaX) + f(k, i, 't'));
+			erro->at(i) = abs(uReal(k + 1, i, 't') - u->at(i));
+		}
+		*uAnterior = *u;
+		if (*std::max_element(erro->begin(), erro->end()) > ErroMax)
+			ErroMax = *std::max_element(erro->begin(), erro->end());
+		printLine(*u, fileU);
+		printLine(*erro, fileE);
+	}
+
+	std::cout << std::endl << "Erro maximo do teste: \n" << std::scientific << ErroMax << std::endl;
+
+	std::cout << "Finalizado. Resultados impressos em arquivos." << std::endl;
+}
+
 void Tarefa::itemUmA()
 {
 	std::vector<double>* u = new std::vector<double>(N + 1, 0);
@@ -27,7 +58,14 @@ void Tarefa::itemUmA()
 	fileE.open("Erro1A.txt", std::ios::trunc);
 	fileE << std::endl << "Erro" << std::endl;
 
-	printLine(*u, fileU);
+	// definição das condições de fronteira
+	// coloca u0 em u(0,:)
+	for (int i = 0; i <= N; i++) {
+		double x = deltaX * i;
+		uAnterior->at(i) = (x * x * (1 - x) * (1 - x));
+	}
+
+	printLine(*uAnterior, fileU);
 	printLine(*erro, fileE);
 	for (int k = 0; k < M; k++) {
 		for (int i = 1; i < N; i++) {
@@ -48,7 +86,6 @@ void Tarefa::itemUmA()
 
 void Tarefa::itemUmB()
 {
-
 	std::vector<double>* u = new std::vector<double>(N + 1, 0);
 	std::vector<double>* uAnterior = new std::vector<double>(N + 1, 0);
 	std::vector<double>* erro = new std::vector<double>(N + 1, 0);
@@ -268,7 +305,7 @@ void Tarefa::itemDoisC()
 	std::vector<double>* erro = new std::vector<double>(N + 1, 0);
 
 	std::vector<double>* diag = new std::vector<double>(N - 1, 1 + lambda);
-	std::vector<double>* sub = new std::vector<double>(N - 2, -lambda/2);
+	std::vector<double>* sub = new std::vector<double>(N - 2, -lambda / 2);
 	std::vector<double>* b = new std::vector<double>(N - 1, 0);
 	std::vector<double>* temp = new std::vector<double>(N - 1, 0);
 	std::ofstream fileU, fileE;
@@ -286,7 +323,7 @@ void Tarefa::itemDoisC()
 	for (int k = 0; k < M; k++) {
 		u->at(0) = 0;
 		for (int i = 0; i < N - 1; i++) {
-			b->at(i) = (1-lambda)*uAnterior->at(i + 1) + (lambda/2) * uAnterior->at(i) + (lambda / 2) * uAnterior->at(i + 2) + (deltaT/2) * (f(k, i + 1, 'a') + f(k + 1, i + 1, 'a'));
+			b->at(i) = (1 - lambda) * uAnterior->at(i + 1) + (lambda / 2) * uAnterior->at(i) + (lambda / 2) * uAnterior->at(i + 2) + (deltaT / 2) * (f(k, i + 1, 'a') + f(k + 1, i + 1, 'a'));
 		}
 		temp = solveLDLt(diag, sub, b);
 		for (int i = 1; i < N; i++) {
@@ -325,7 +362,7 @@ void Tarefa::itemDoisC()
 		double t = deltaT * (k + 1.0);
 		u->at(0) = exp(t);
 		u->at(N) = exp(t - 1) * cos(5 * t);
-		b->at(0) = (1 - lambda) * uAnterior->at(1) + (lambda / 2) * uAnterior->at(0) + (lambda / 2) * uAnterior->at(2) + (deltaT / 2) * (f(k, 1, 'b') + f(k + 1, 1, 'b')) + (lambda/2) * u->at(0);
+		b->at(0) = (1 - lambda) * uAnterior->at(1) + (lambda / 2) * uAnterior->at(0) + (lambda / 2) * uAnterior->at(2) + (deltaT / 2) * (f(k, 1, 'b') + f(k + 1, 1, 'b')) + (lambda / 2) * u->at(0);
 		for (int i = 1; i < N - 2; i++) {
 			b->at(i) = (1 - lambda) * uAnterior->at(i + 1) + (lambda / 2) * uAnterior->at(i) + (lambda / 2) * uAnterior->at(i + 2) + (deltaT / 2) * (f(k, i + 1, 'b') + f(k + 1, i + 1, 'b'));
 		}
@@ -376,8 +413,10 @@ double Tarefa::f(int k, int i, char ch)
 {
 	double t = deltaT * k;
 	double x = deltaX * i;
-	if (ch == 'a')
+	if (ch == 't')
 		return (10 * x * x * (x - 1) - 60 * x * t + 20 * t);
+	else if (ch == 'a')
+		return (10 * cos(10 * t) * x * x * (1 - x) * (1 - x) - (1 + sin(10 * t)) * (12 * x * x - 12 * x + 2));
 	else if (ch == 'b')
 		return (5 * (exp(t - x)) * (5 * t * t * cos(5 * t * x) - 2 * t * sin(5 * t * x) - x * sin(5 * t * x)));
 	else if (x >= (p - deltaX / 2) && x <= (p + deltaX / 2))
@@ -390,8 +429,10 @@ double Tarefa::uReal(int k, int i, char ch)
 {
 	double t = deltaT * k;
 	double x = deltaX * i;
-	if (ch == 'a')
+	if (ch == 't')
 		return (10 * x * x * (x - 1) * t);
+	else if (ch == 'a')
+		return ((1 + sin(10 * t)) * x * x * (1 - x) * (1 - x));
 	else
 		return (exp(t - x) * cos(5 * t * x));
 }

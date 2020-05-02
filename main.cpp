@@ -43,6 +43,7 @@ void menu() {
 		std::cin >> item;
 		item = (char)tolower(item);
 		if (item == 'a') {
+			tarefa.itemUmATeste();
 			tarefa.itemUmA();
 		}
 		else if (item == 'b') {

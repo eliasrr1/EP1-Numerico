@@ -10,6 +10,7 @@ public:
 	Tarefa(int N, int M);
 	~Tarefa();
 
+	void itemUmATeste();
 	void itemUmA();
 	void itemUmB();
 	void itemUmC();
