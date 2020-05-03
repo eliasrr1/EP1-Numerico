@@ -212,7 +212,15 @@ void Tarefa::itemDoisB()
 	fileE << std::endl << "Erro do caso A" << std::endl;
 
 	// Item B.a
-	printLine(*u, fileU);
+
+	// definição das condições de fronteira
+	// coloca u0 em u(0,:)
+	for (int i = 0; i <= N; i++) {
+		double x = deltaX * i;
+		uAnterior->at(i) = (x * x * (1 - x) * (1 - x));
+	}
+
+	printLine(*uAnterior, fileU);
 	printLine(*erro, fileE);
 	for (int k = 0; k < M; k++) {
 		u->at(0) = 0;
@@ -318,7 +326,15 @@ void Tarefa::itemDoisC()
 	fileE << std::endl << "Erro do caso A" << std::endl;
 
 	// Item C.a
-	printLine(*u, fileU);
+
+	// definição das condições de fronteira
+	// coloca u0 em u(0,:)
+	for (int i = 0; i <= N; i++) {
+		double x = deltaX * i;
+		uAnterior->at(i) = (x * x * (1 - x) * (1 - x));
+	}
+
+	printLine(*uAnterior, fileU);
 	printLine(*erro, fileE);
 	for (int k = 0; k < M; k++) {
 		u->at(0) = 0;
