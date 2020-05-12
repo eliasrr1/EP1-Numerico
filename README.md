@@ -1,4 +1,5 @@
-# MAP3121 - Métodos Numéricos e Aplicações (2020)
+### MAP3121 - Métodos Numéricos e Aplicações (2020)
+## Exercício Programa 1
   
 **Instruções de compilação**
 
@@ -59,12 +60,12 @@ Por exemplo, caso queira resolver o seguinte sistema 3x3, deve-se inserir o valo
 	 <img src="https://i.imgur.com/xBBF5Au.png">
 </div>	 
 
-*entrada.txt*
+`entrada.txt`
 
     2 2 2
     -1 -1
     1 0 0
 
- *Output2A.txt*
+`Output2A.txt`
  
     7.500000e-001 5.000000e-001 2.500000e-001 
