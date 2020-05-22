@@ -8,11 +8,13 @@
 \usepackage[brazil]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{textcomp}
+\usepackage{float}
 \usepackage{csquotes}
 \usepackage[colorinlistoftodos]{todonotes}
 \usepackage{caption}
 \usepackage{commath}
 \usepackage{subcaption}
+\usepackage{hyperref}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{indentfirst}
@@ -25,7 +27,6 @@
 \usepackage[backend=biber, style=abnt-numeric, noslsn]{biblatex}
 \addbibresource{referencia.bib}
 
-\graphicspath{{~Figuras}}
 \setlength{\parindent}{1cm}
 
 \setlength{\marginparwidth}{2cm}
@@ -100,7 +101,7 @@ O dimensionamento da malha é representado por uma matriz M x N, na qual $\Delta
 
 \subsection{Item A}
 
-Primeiramente, no caso exemplo com fonte $f(t,x)=10x^{2} (x-1)-60xt+20t$, para que se possa verificar que a solução exata é $u(t,x)=10tx^{2}(x-1)$, deve-se levar em consideração a condição vista na equação \eqref{calor1}.
+Primeiramente, no caso exemplo com fonte $f_{teste}(t,x)=10x^{2} (x-1)-60xt+20t$, para que se possa verificar que a solução exata é $u(t,x)=10tx^{2}(x-1)$, deve-se levar em consideração a condição vista na equação \eqref{calor1}.
 \begin{gather}
 u_{t}(t,x) = u_{xx}(t,x) + f(t,x) \;\; \text{em} \;\; [0,T]\times[0,1] \label{calor1}\\
 u(0,x)=u_0(x) \;\;\text{em}\;\; [0,1] \label{calor2}\\
@@ -113,7 +114,7 @@ Analiticamente, como $u_{t}(t,x)=10x^{2}(x-1)$ e $u_{xx}=40tx+20t(x - 1)$, sabe-
 O erro de truncamento, em relação à $f_{teste}$, leva em consideração as equações \eqref{erro1} e \eqref{erro2}.
 \begin{gather}
 \tau(\Delta t,\Delta x) \leq C_{1}\Delta t + C_{2}\Delta x^{2} \label{erro1}\\
-C_{1}= \underset{[0,T]\times[0,1]}{max}\abs{\frac{u_{tt}(t,x)}{2}}\;\;\text{e}\;\;C_{2}=\underset{[0,T]\times[0,1]}{max}\abs{\frac{u_{xxxx}(t,\bar{x})}{4!}} \label{erro2}
+C_{1}= \underset{[0,T]\times[0,1]}{max}\abs{\frac{u_{tt}(t,x)}{2}}\;\;\text{e}\;\;C_{2}=\underset{[0,T]\times[0,1]}{max}\abs{\frac{u_{xxxx}(t,\bar{x})}{12}} \label{erro2}
 \end{gather}
 
 Neste caso, para qualquer discretização $\Delta t$ e $\Delta x$, $\tau(\Delta t,\Delta x)=0$, visto que as constantes $C_{1} = C_{2} = 0$, ou seja, o erro de truncamento será sempre zero para o caso teste (com $u(t,x)=10tx^{2}(x-1)$ e $f_{teste}$). De fato, comparando-se a função exata à calculada, conclui-se que os erros obtidos são apenas de arredondamento (verificar arquivo \textit{Erro1ATeste.txt}).
@@ -127,7 +128,7 @@ Foram geradas curvas (Apêndice \ref{curvas1A}) com N variando entre 10 e 320 e 
 \newpage
 \begin{figure}[ht!]
     \centering
-    \includegraphics[width=0.6\linewidth]{Primeira_Tarefa/ItemA/itemA_2D.png}
+    \includegraphics[width=0.5\linewidth]{Primeira_Tarefa/ItemA/itemA_2D.png}
     \caption{Solução do item A, com $N=80$ e $\lambda=0,5$}
     \label{fig:itemA_2D}
 \end{figure}
@@ -154,7 +155,7 @@ N & Erro máximo\\ [0.5ex]
 \label{table:A_erro_lambda0-51}
 \end{table}
 
-Para que se possa observar o comportamento do erro para $\lambda = 0,25$ e $\lambda = 0,5$, elaborou-se os gráficos das figuras \ref{fig:A_lambda0-25_Fit_Erro} e \ref{fig:A_lambda0-5_Fit_Erro}. Percebe-se que o erro cai exponencialmente em ambos os casos, em função da discretização da malha. Dessa forma, pode-se inferir seu valor aproximado, para um N genérico, a partir das fórmulas encontradas pelo ajuste exponencial.
+Para que se possa observar o comportamento do erro para $\lambda = 0,25$ e $\lambda = 0,5$, elaborou-se os gráficos das figuras \ref{fig:A_lambda0-25_Fit_Erro} e \ref{fig:A_lambda0-5_Fit_Erro}. Percebe-se que o erro cai exponencialmente em ambos os casos, em função da discretização da malha. Dessa forma, observa-se fator de redução de aproximadamente 4 (para $\lambda = 0,25$ e $\lambda = 0,5$), conforme dobra-se $N$. Ou, ainda, de forma mais completa, pode-se inferir seu valor aproximado, para $N$ genérico, a partir das fórmulas encontradas pelo ajuste exponencial.  
 
 Tais valores, em relação ao erro máximo encontrado partindo-se de $f_{teste}$, em que foi provado que não há erro de truncamento, são muito maiores. Isso ocorre pois o erro de ponto flutuante, quando são usados dados de 8 \textit{bytes}, é muito pequeno, e, portanto, o truncamento da série de Taylor se manifesta de maneira mais evidente.
 
@@ -194,7 +195,7 @@ Analogamente ao item A, considerando $f(t,x)$ e as condições acima apontadas, 
     \label{fig:itemB_2D}
 \end{figure}
 
-Para que se possa mais profundamente analisar os resultados obtidos, é possível visualizar, nas figuras \ref{fig:B_lambda0-25_Fit_Erro} e \ref{fig:B_lambda0-5_Fit_Erro}, o comportamento do erro para $\lambda = 0,25$ e $\lambda = 0,5$, respectivamente. Conforme dobra-se $N$, refinando-se a malha, têm-se que o erro máximo obedece um fator de redução que cuja forma é uma exponencial decrescente.
+Para que se possa mais profundamente analisar os resultados obtidos, é possível visualizar, nas figuras \ref{fig:B_lambda0-25_Fit_Erro} e \ref{fig:B_lambda0-5_Fit_Erro}, o comportamento do erro para $\lambda = 0,25$ e $\lambda = 0,5$, respectivamente. Conforme dobra-se $N$, refinando-se a malha, têm-se que o erro máximo segue um fator de redução com valor 4, cuja forma para $N$ genérico é uma exponencial decrescente.
 
 \begin{figure}[ht!]
     \centering
@@ -308,7 +309,15 @@ Primeiramente, a matriz A pode ser descrita por dois vetores, \textit{diag} e \t
     l(i) = \dfrac{sub(i)}{d(i)}, \text{ para i} \in [0, \textit{N}-3]
 \end{gather}
 
-A solução da equação matricial pode ser feita em três partes, resolvendo sistemas lineares triangulares simples em cada passo. 
+A solução da equação matricial pode ser feita em três partes, resolvendo sistemas lineares triangulares simples em cada passo. Podemos, então, decompor $A = LDL^t$ em:
+
+\setlength{\abovedisplayskip}{0.05cm}
+\setlength{\belowdisplayskip}{0.2cm}
+\begin{gather*}
+    L z = b \\
+	D y = z \\
+	L^t x = y 
+\end{gather*}
 
 Para a correta utilização da função implementada, deve-se criar um arquivo com nome \textit{entrada.txt} cujas linhas seguem a formatação do apêndice \ref{readme}\footnote{\url{https://github.com/eliasrr1/ep1-numerico}}. A saída será impressa em um arquivo nomeado \textit{Output2A.txt}.
 
@@ -349,7 +358,7 @@ Matricialmente, para cada instante, deve-se resolver a equação matricial vista
     \end{bmatrix}
 \end{gather}
 
- Pode-se observar as soluções encontradas dos items A, B e C nos apêndices \ref{curvas2B}, bem como os respectivos erros associados. Visualmente, a partir de $N=M=40$, não é possível notar diferenças significativa nas curvas. Nas figuras \ref{fig:Tarefa2B_itemA_2D}, \ref{fig:Tarefa2B_itemB_2D} e \ref{fig:Tarefa2B_itemC_2D}, a evolução da temperatura com passo de 0,1 pode ser observada.
+ Pode-se observar as soluções encontradas dos items A, B e C nos apêndices \ref{curvas2B}, bem como os respectivos erros associados. As soluções exatas encontram-se nos apêndices \ref{curvas1A} e \ref{curvas1B}, uma vez que são as mesmas da primeira tarefa, geradas pelo MATLAB. Visualmente, a partir de $N=M=40$, não é possível notar diferenças significativa nas curvas. Nas figuras \ref{fig:Tarefa2B_itemA_2D}, \ref{fig:Tarefa2B_itemB_2D} e \ref{fig:Tarefa2B_itemC_2D}, a evolução da temperatura com passo de 0,1 pode ser observada.
 
 \begin{figure}[ht!]
 \centering
@@ -379,14 +388,14 @@ Uma solução numérica é dita convergente de ordem \textit{n} se o erro for da
     E(h):=\abs{u-u_{calc}}=C h^n, \;\;C \in \mathbb{R}
 \end{equation}
 
+\clearpage
 Portanto, quando observado que o erro de truncamento do método de Euler implícito é dado por \eqref{ordem}, tem-se que a ordem de convergência em $\Delta t$ é 1 e em $\Delta x$ é 2.
 
 \begin{equation}\label{ordem}
     \tau(\Delta t, \Delta x)= \underset{k,i}{max}\abs{\tau^k_i(\Delta t,\Delta x)} \leq C_1\Delta t + C_2 \Delta x^2
 \end{equation}
 
-\clearpage
-O comportamento do erro máximo está representado na figura \ref{fig:2B_Fit_Erro}. Novamente, vê-se decrescimento exponencial em função de N.
+O comportamento do erro máximo está representado na figura \ref{fig:2B_Fit_Erro}. Novamente, vê-se decrescimento exponencial em função de N. Porém, não há fator de redução 4, como visto na primeira tarefa. Observando-se a tabela \ref{table:fator_reducao}, pode-se ver seu comportamento.
 
 \begin{figure}[ht!]
     \centering
@@ -394,6 +403,26 @@ O comportamento do erro máximo está representado na figura \ref{fig:2B_Fit_Err
     \caption{Ajuste exponencial para os erros}
     \label{fig:2B_Fit_Erro}
 \end{figure} 
+\vspace{0.5cm}
+\begin{table}[ht]
+\centering 
+\begin{tabular}{c c c c c} 
+\hline\hline 
+\rule{0pt}{3ex} 
+N=M & Erro máximo A & Fator de Redução A & Erro máximo B & Fator de Redução B\\ [0.5ex] 
+\hline 
+\rule{0pt}{4ex}
+        10  & $1,626703 \cdot 10^{-2}$ &      -        & $4,496773 \cdot 10^{-2}$ &       -      \\ 
+        20  & $9,194187 \cdot 10^{-3}$ &  $1,7692733$  & $1,561894 \cdot 10^{-2}$ &  $2,8790513$ \\ 
+        40  & $4,944007 \cdot 10^{-3}$ &  $1,8596630$  & $7,834641 \cdot 10^{-3}$ &  $1,9935744$ \\ 
+        80  & $2,581569 \cdot 10^{-3}$ &  $1,9151171$  & $3,931040 \cdot 10^{-3}$ &  $1,9930199$ \\ 
+        160 & $1,319515 \cdot 10^{-3}$ &  $1,9564529$  & $1,968850 \cdot 10^{-3}$ &  $1,9966173$ \\ 
+        320 & $6,673197 \cdot 10^{-4}$ &  $1,9773356$  & $9,967567 \cdot 10^{-4}$ &  $1,9752563$ \\ [1ex]
+\hline
+\end{tabular}
+\caption{Fator de redução para o método de Euler implícito, com $T = 1$} 
+\label{table:fator_reducao}
+\end{table}
 
 \subsection{Item C}
 
@@ -403,6 +432,8 @@ u_{i}^{k+1} = u_i^k + \dfrac{\lambda}{2}((u^{k+1}_{i-1} - 2u^{k+1}_{i} + u_{i+1}
 \end{equation}
 
 Para cada instante de tempo, deve-se resolver o sistema matricial apresentado na equação \eqref{matrix:crank_nicolson}.
+
+\vspace{1cm}
 \begin{equation}\label{matrix:crank_nicolson}
     \renewcommand*{\arraystretch}{0.75}
     \begin{bmatrix}
@@ -431,7 +462,10 @@ Para cada instante de tempo, deve-se resolver o sistema matricial apresentado na
     \end{bmatrix}
 \end{equation*}
 
-As soluções encontradas, bem como os erros associados a cada discretização, podem ser vistos nas figuras do apêndice \ref{curvas2C}. Ainda, adotando-se passo temporal de 0,1, traçou-se as curvas das figuras \ref{fig:Tarefa2C_itemA_2D}, \ref{fig:Tarefa2C_itemB_2D} e \ref{fig:Tarefa2C_itemC_2D}. 
+\vspace{1cm}
+As soluções encontradas, bem como os erros associados a cada discretização, podem ser vistos nas figuras do apêndice \ref{curvas2C}. As soluções exatas encontram-se nos apêndices \ref{curvas1A} e \ref{curvas1B}, uma vez que são as mesmas da primeira tarefa. Ainda, adotando-se passo temporal de 0,1, traçou-se as curvas das figuras \ref{fig:Tarefa2C_itemA_2D}, \ref{fig:Tarefa2C_itemB_2D} e \ref{fig:Tarefa2C_itemC_2D}. 
+
+\clearpage
 \begin{figure}[ht!]
 \centering
     \begin{minipage}[b]{0.45\linewidth}
@@ -454,21 +488,18 @@ As soluções encontradas, bem como os erros associados a cada discretização, 
     \label{fig:Tarefa2C_itemC_2D}
 \end{figure}
 
-\clearpage
 Observam-se os resultados obtidos, para o método de Crank-Nicolson aplicado ao item C, notam-se oscilações significativas (vide figura \ref{fig:CC_nm10_calculada} do apêndice \ref{curvas2C}). Isso ocorre pois, como visto na figura \ref{fig:fonte_pontual}, a intensidade da fonte apresenta descontinuidade em \textit{p}. 
 
 Nessas condições, lembrando-se que $\lambda > \dfrac{1}{2}$ (considerando que $\Delta x = \Delta t$), o método tende a gerar oscilações espúrias \supercite{osterby}. É de se considerar, portanto, a utilização do método de Euler implícito, o qual é estável e imune à oscilações, para malhas pouco refinadas.
-
-\vspace{1cm}
-\begin{figure}[ht]
+\vspace{0.2cm}
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\linewidth]{Segunda_Tarefa/ItemC/fonte.png}
+    \includegraphics[width=0.7\linewidth]{Segunda_Tarefa/ItemC/fonte.png}
     \caption{Descontinuidade da fonte pontual}
     \label{fig:fonte_pontual}
 \end{figure}
 
-
-O erro máximo, em função de $N$, pode ser visto na figura \ref{fig:2C_Fit_Erro}. Novamente, pode-se observar um fator exponencial de redução para o erro.
+O erro máximo, com $T=1$, em função de $N$, pode ser visto na figura \ref{fig:2C_Fit_Erro}. Novamente, pode-se observar um comportamento exponencial decrescente para o erro, com fator de redução de aproximadamente 4, como na primeira tarefa.
 
 
 \begin{figure}[ht!]

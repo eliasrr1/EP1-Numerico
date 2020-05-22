@@ -4,6 +4,7 @@
 
 void menu();
 
+// Menu visual para recebimento de instrucoes
 void menu() {
 	int tarefa;
 	char item;

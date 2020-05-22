@@ -2,8 +2,6 @@
 
 N = 10;
 M = 200;
-deltaT = 1/M;
-deltaX = 1/N;
 
 x = linspace(0, 1, N + 1);
 t = linspace(0, 1, M + 1);
@@ -47,7 +45,7 @@ shading interp
 % 1A Real
 uReal = ((1 + sin(10 .* T)) .* X .* X .* (1 - X) .* (1 - X));
 
-figure(1)
+figure(4)
 surf(x, t, uReal)
 title('Funcao u exata do item A')
 xlabel('0 < x < 1') 
@@ -55,7 +53,7 @@ ylabel('0 < t < 1')
 zlabel('Temperatura')
 shading interp
 
-figure(2)
+figure(5)
 R1a = readmatrix('Output1A.txt');
 R1a(:,end) = [];
 surf(x, t, R1a)
@@ -66,7 +64,7 @@ zlabel('Temperatura')
 colormap('summer')
 shading interp
 
-figure(3)
+figure(6)
 erro1a = readmatrix('Erro1A.txt');
 erro1a(:,end) = [];
 surf(x, t, erro1a)
@@ -77,7 +75,7 @@ zlabel('Temperatura')
 colormap('spring')
 shading interp
 
-figure(4)
+figure(7)
 hold
 distancia = floor(M/10);
 Ratual = R1a(1, :);
@@ -94,7 +92,7 @@ ylabel('Temperatura')
 % 1B
 uReal = (exp(T - X) .* cos(5 .* T .* X));
 
-figure(1)
+figure(8)
 surf(x, t, uReal)
 title('Funcao u exata do item B')
 xlabel('0 < x < 1') 
@@ -102,7 +100,7 @@ ylabel('0 < t < 1')
 zlabel('Temperatura')
 shading interp
 
-figure(2)
+figure(9)
 R1b = readmatrix('Output1B.txt');
 R1b(:,end) = [];
 surf(x, t, R1b)
@@ -113,7 +111,7 @@ zlabel('Temperatura')
 colormap('summer')
 shading interp
 
-figure(3)
+figure(10)
 erro1b = readmatrix('Erro1B.txt');
 erro1b(:,end) = [];
 surf(x, t, erro1b)
@@ -124,7 +122,7 @@ zlabel('Temperatura')
 colormap('spring')
 shading interp
 
-figure(4)
+figure(11)
 hold
 distancia = floor(M/10);
 Ratual = R1b(1, :);
@@ -140,7 +138,7 @@ ylabel('Temperatura')
 
 % 1C
 
-figure(1)
+figure(12)
 R1c = readmatrix('Output1C.txt');
 R1c(:,end) = [];
 surf(x, t, R1c)
@@ -151,7 +149,7 @@ zlabel('Temperatura')
 colormap('summer')
 shading interp
 
-figure(2)
+figure(13)
 hold
 distancia = floor(M/10);
 Ratual = R1c(1, :);

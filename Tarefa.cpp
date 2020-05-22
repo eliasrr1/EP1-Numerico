@@ -15,18 +15,21 @@ Tarefa::~Tarefa()
 {
 }
 
+// Tarefa 1
 void Tarefa::itemUmATeste()
 {
+	// Vetores para armazenamento de dados
 	std::vector<double>* u = new std::vector<double>(N + 1, 0);
 	std::vector<double>* uAnterior = new std::vector<double>(N + 1, 0);
 	std::vector<double>* erro = new std::vector<double>(N + 1, 0);
-	std::ofstream fileU, fileE;
+	std::ofstream fileU, fileE; // Arquivos de saida
 	double ErroMax = 0;
 	fileU.open("Output1ATeste.txt", std::ios::trunc);
 	fileU << std::endl << "Matriz U calculada" << std::endl;
 	fileE.open("Erro1ATeste.txt", std::ios::trunc);
 	fileE << std::endl << "Erro" << std::endl;
 
+	// Calculo das celulas por Euler explicito
 	printLine(*u, fileU);
 	printLine(*erro, fileE);
 	for (int k = 0; k < M; k++) {
@@ -48,10 +51,11 @@ void Tarefa::itemUmATeste()
 
 void Tarefa::itemUmA()
 {
+	// Vetores para armazenamento de dados
 	std::vector<double>* u = new std::vector<double>(N + 1, 0);
 	std::vector<double>* uAnterior = new std::vector<double>(N + 1, 0);
 	std::vector<double>* erro = new std::vector<double>(N + 1, 0);
-	std::ofstream fileU, fileE;
+	std::ofstream fileU, fileE; // Arquivos de saida
 	double ErroMax = 0;
 	fileU.open("Output1A.txt", std::ios::trunc);
 	fileU << std::endl << "Matriz U calculada" << std::endl;
@@ -65,6 +69,7 @@ void Tarefa::itemUmA()
 		uAnterior->at(i) = (x * x * (1 - x) * (1 - x));
 	}
 
+	// Calculo das celulas por Euler explicito
 	printLine(*uAnterior, fileU);
 	printLine(*erro, fileE);
 	for (int k = 0; k < M; k++) {
@@ -86,10 +91,11 @@ void Tarefa::itemUmA()
 
 void Tarefa::itemUmB()
 {
+	// Vetores para armazenamento de dados
 	std::vector<double>* u = new std::vector<double>(N + 1, 0);
 	std::vector<double>* uAnterior = new std::vector<double>(N + 1, 0);
 	std::vector<double>* erro = new std::vector<double>(N + 1, 0);
-	std::ofstream fileU, fileE;
+	std::ofstream fileU, fileE; // Arquivos de saida
 	double ErroMax = 0;
 	fileU.open("Output1B.txt", std::ios::trunc);
 	fileU << std::endl << "Matriz U calculada" << std::endl;
@@ -103,11 +109,12 @@ void Tarefa::itemUmB()
 		uAnterior->at(i) = exp(-x);
 	}
 
+	// Calculo das celulas por Euler explicito
 	printLine(*uAnterior, fileU);
 	printLine(*erro, fileE);
 	for (int k = 0; k < M; k++) {
 		double t = deltaT * (k + 1.0);
-		u->at(0) = exp(t);
+		u->at(0) = exp(t); // condicoes de contorno
 		u->at(N) = exp(t - 1) * cos(5 * t);
 		for (int i = 1; i < N; i++) {
 			u->at(i) = uAnterior->at(i) + deltaT * ((uAnterior->at(i - 1) - (2.0 * uAnterior->at(i)) + uAnterior->at(i + 1)) / (deltaX * deltaX) + f(k, i, 'b'));
@@ -129,10 +136,11 @@ void Tarefa::itemUmC()
 {
 	std::vector<double>* u = new std::vector<double>(N + 1, 0);
 	std::vector<double>* uAnterior = new std::vector<double>(N + 1, 0);
-	std::ofstream fileU;
+	std::ofstream fileU; // Arquivo de saida
 	fileU.open("Output1C.txt", std::ios::trunc);
 	fileU << std::endl << "Matriz U calculada" << std::endl;
 
+	// Calculo das celulas por Euler explicito
 	printLine(*u, fileU);
 	for (int k = 0; k < M; k++) {
 		for (int i = 1; i < N; i++) {
@@ -145,8 +153,10 @@ void Tarefa::itemUmC()
 	std::cout << "Finalizado. Resultados impressos em arquivo." << std::endl;
 }
 
+// Tarefa 2
 void Tarefa::itemDoisA()
 {
+	// Vetores de entrada da matriz A
 	std::vector<double>* diag = new std::vector<double>(N - 1, 0);
 	std::vector<double>* sub = new std::vector<double>(N - 2, 0);
 	std::vector<double>* b = new std::vector<double>(N - 1, 0);
@@ -155,17 +165,19 @@ void Tarefa::itemDoisA()
 
 	std::ofstream saida;
 	saida.open("Output2A.txt", std::ios::trunc);
+
+	// Verificar se o arquivo existe
 	if (entrada.fail()) {
 		entrada.close();
 		throw new std::invalid_argument("Arquivo nao encontrado");
 	}
-
 
 	if (entrada.eof()) {
 		entrada.close();
 		throw new std::invalid_argument("Arquivo vazio");
 	}
 
+	// Preencher os vetores
 	for (int i = 0; i < N - 1; i++) {
 		if (!entrada.good()) {
 			entrada.close();
@@ -188,16 +200,19 @@ void Tarefa::itemDoisA()
 		entrada >> b->at(i);
 	}
 
+	// Imprimir a solucao no arquivo de saida
 	printLine(*solveLDLt(diag, sub, b), saida);
 	std::cout << "Finalizado. Resultados impressos em arquivo." << std::endl;
 }
 
 void Tarefa::itemDoisB()
 {
+	// Vetores para armazenar a saida
 	std::vector<double>* u = new std::vector<double>(N + 1, 0);
 	std::vector<double>* uAnterior = new std::vector<double>(N + 1, 0);
 	std::vector<double>* erro = new std::vector<double>(N + 1, 0);
 
+	// Vetores intermediarios de calculo
 	std::vector<double>* diag = new std::vector<double>(N - 1, 1 + 2 * lambda);
 	std::vector<double>* sub = new std::vector<double>(N - 2, -lambda);
 	std::vector<double>* b = new std::vector<double>(N - 1, 0);
@@ -220,10 +235,11 @@ void Tarefa::itemDoisB()
 		uAnterior->at(i) = (x * x * (1 - x) * (1 - x));
 	}
 
+	// Calculo por metodo de Euler implicito
 	printLine(*uAnterior, fileU);
 	printLine(*erro, fileE);
 	for (int k = 0; k < M; k++) {
-		u->at(0) = 0;
+		u->at(0) = 0; // Condicao de contorno em x=0
 		for (int i = 0; i < N - 1; i++) {
 			b->at(i) = uAnterior->at(i + 1) + deltaT * f(k + 1, i + 1, 'a');
 		}
@@ -232,7 +248,7 @@ void Tarefa::itemDoisB()
 			u->at(i) = temp->at(i - 1);
 			erro->at(i) = abs(uReal(k + 1, i, 'a') - u->at(i));
 		}
-		u->at(N) = 0;
+		u->at(N) = 0; // Condicao de contorno em x=1
 		*uAnterior = *u;
 		if (*std::max_element(erro->begin(), erro->end()) > ErroMax)
 			ErroMax = *std::max_element(erro->begin(), erro->end());
@@ -258,11 +274,12 @@ void Tarefa::itemDoisB()
 		uAnterior->at(i) = exp(-x);
 	}
 
+	// Calculo por metodo de Euler implicito
 	printLine(*uAnterior, fileU);
 	printLine(*erro, fileE);
 	for (int k = 0; k < M; k++) {
 		double t = deltaT * (k + 1.0);
-		u->at(0) = exp(t);
+		u->at(0) = exp(t); // Condicoes de contorno
 		u->at(N) = exp(t - 1) * cos(5 * t);
 		b->at(0) = uAnterior->at(1) + deltaT * f(k + 1, 1, 'b') + lambda * u->at(0);
 		for (int i = 1; i < N - 2; i++) {
@@ -288,6 +305,7 @@ void Tarefa::itemDoisB()
 	fileU << std::endl << "Matriz U calculada do caso C" << std::endl;
 	std::fill(uAnterior->begin(), uAnterior->end(), 0);
 
+	// Calculo por metodo de Euler implicito
 	printLine(*uAnterior, fileU);
 	for (int k = 0; k < M; k++) {
 		u->at(0) = 0;
@@ -308,10 +326,12 @@ void Tarefa::itemDoisB()
 
 void Tarefa::itemDoisC()
 {
+	// Vetores para armazenar a saida
 	std::vector<double>* u = new std::vector<double>(N + 1, 0);
 	std::vector<double>* uAnterior = new std::vector<double>(N + 1, 0);
 	std::vector<double>* erro = new std::vector<double>(N + 1, 0);
 
+	// Vetores intermediarios de calculo
 	std::vector<double>* diag = new std::vector<double>(N - 1, 1 + lambda);
 	std::vector<double>* sub = new std::vector<double>(N - 2, -lambda / 2);
 	std::vector<double>* b = new std::vector<double>(N - 1, 0);
@@ -334,10 +354,11 @@ void Tarefa::itemDoisC()
 		uAnterior->at(i) = (x * x * (1 - x) * (1 - x));
 	}
 
+	// Calculo por metodo de Crank-Nicolson
 	printLine(*uAnterior, fileU);
 	printLine(*erro, fileE);
 	for (int k = 0; k < M; k++) {
-		u->at(0) = 0;
+		u->at(0) = 0; // Condicao de contorno em x=0
 		for (int i = 0; i < N - 1; i++) {
 			b->at(i) = (1 - lambda) * uAnterior->at(i + 1) + (lambda / 2) * uAnterior->at(i) + (lambda / 2) * uAnterior->at(i + 2) + (deltaT / 2) * (f(k, i + 1, 'a') + f(k + 1, i + 1, 'a'));
 		}
@@ -346,7 +367,7 @@ void Tarefa::itemDoisC()
 			u->at(i) = temp->at(i - 1);
 			erro->at(i) = abs(uReal(k + 1, i, 'a') - u->at(i));
 		}
-		u->at(N) = 0;
+		u->at(N) = 0; // Condicao de contorno em x=1
 		*uAnterior = *u;
 		if (*std::max_element(erro->begin(), erro->end()) > ErroMax)
 			ErroMax = *std::max_element(erro->begin(), erro->end());
@@ -372,11 +393,12 @@ void Tarefa::itemDoisC()
 		uAnterior->at(i) = exp(-x);
 	}
 
+	// Calculo por metodo de Crank-Nicolson
 	printLine(*uAnterior, fileU);
 	printLine(*erro, fileE);
 	for (int k = 0; k < M; k++) {
 		double t = deltaT * (k + 1.0);
-		u->at(0) = exp(t);
+		u->at(0) = exp(t); // Condicoes de contorno
 		u->at(N) = exp(t - 1) * cos(5 * t);
 		b->at(0) = (1 - lambda) * uAnterior->at(1) + (lambda / 2) * uAnterior->at(0) + (lambda / 2) * uAnterior->at(2) + (deltaT / 2) * (f(k, 1, 'b') + f(k + 1, 1, 'b')) + (lambda / 2) * u->at(0);
 		for (int i = 1; i < N - 2; i++) {
@@ -402,6 +424,7 @@ void Tarefa::itemDoisC()
 	fileU << std::endl << "Matriz U calculada do caso C" << std::endl;
 	std::fill(uAnterior->begin(), uAnterior->end(), 0);
 
+	// Calculo por metodo de Crank-Nicolson
 	printLine(*uAnterior, fileU);
 	for (int k = 0; k < M; k++) {
 		u->at(0) = 0;
