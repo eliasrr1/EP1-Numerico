@@ -155,7 +155,7 @@ N & Erro máximo\\ [0.5ex]
 \label{table:A_erro_lambda0-51}
 \end{table}
 
-Para que se possa observar o comportamento do erro para $\lambda = 0,25$ e $\lambda = 0,5$, elaborou-se os gráficos das figuras \ref{fig:A_lambda0-25_Fit_Erro} e \ref{fig:A_lambda0-5_Fit_Erro}. Percebe-se que o erro cai exponencialmente em ambos os casos, em função da discretização da malha. Dessa forma, observa-se fator de redução de aproximadamente 4 (para $\lambda = 0,25$ e $\lambda = 0,5$), conforme dobra-se $N$. Ou, ainda, de forma mais completa, pode-se inferir seu valor aproximado, para $N$ genérico, a partir das fórmulas encontradas pelo ajuste exponencial.  
+Para que se possa observar o comportamento do erro para $\lambda = 0,25$ e $\lambda = 0,5$, elaborou-se os gráficos das figuras \ref{fig:A_lambda0-25_Fit_Erro} e \ref{fig:A_lambda0-5_Fit_Erro}. Percebe-se que o erro cai exponencialmente em ambos os casos, em função da discretização da malha. Dessa forma, observa-se fator de redução de aproximadamente $\dfrac{1}{4}$ (para $\lambda = 0,25$ e $\lambda = 0,5$), conforme dobra-se $N$. Ou, ainda, de forma mais completa, pode-se inferir seu valor aproximado, para $N$ genérico, a partir das fórmulas encontradas pelo ajuste exponencial.  
 
 Tais valores, em relação ao erro máximo encontrado partindo-se de $f_{teste}$, em que foi provado que não há erro de truncamento, são muito maiores. Isso ocorre pois o erro de ponto flutuante, quando são usados dados de 8 \textit{bytes}, é muito pequeno, e, portanto, o truncamento da série de Taylor se manifesta de maneira mais evidente.
 
@@ -195,7 +195,7 @@ Analogamente ao item A, considerando $f(t,x)$ e as condições acima apontadas, 
     \label{fig:itemB_2D}
 \end{figure}
 
-Para que se possa mais profundamente analisar os resultados obtidos, é possível visualizar, nas figuras \ref{fig:B_lambda0-25_Fit_Erro} e \ref{fig:B_lambda0-5_Fit_Erro}, o comportamento do erro para $\lambda = 0,25$ e $\lambda = 0,5$, respectivamente. Conforme dobra-se $N$, refinando-se a malha, têm-se que o erro máximo segue um fator de redução com valor 4, cuja forma para $N$ genérico é uma exponencial decrescente.
+Para que se possa mais profundamente analisar os resultados obtidos, é possível visualizar, nas figuras \ref{fig:B_lambda0-25_Fit_Erro} e \ref{fig:B_lambda0-5_Fit_Erro}, o comportamento do erro para $\lambda = 0,25$ e $\lambda = 0,5$, respectivamente. Conforme dobra-se $N$, refinando-se a malha, têm-se que o erro máximo segue um fator de redução com valor $\dfrac{1}{4}$, cuja forma para $N$ genérico é uma exponencial decrescente.
 
 \begin{figure}[ht!]
     \centering
@@ -413,11 +413,11 @@ N=M & Erro máximo A & Fator de Redução A & Erro máximo B & Fator de Reduçã
 \hline 
 \rule{0pt}{4ex}
         10  & $1,626703 \cdot 10^{-2}$ &      -        & $4,496773 \cdot 10^{-2}$ &       -      \\ 
-        20  & $9,194187 \cdot 10^{-3}$ &  $1,7692733$  & $1,561894 \cdot 10^{-2}$ &  $2,8790513$ \\ 
-        40  & $4,944007 \cdot 10^{-3}$ &  $1,8596630$  & $7,834641 \cdot 10^{-3}$ &  $1,9935744$ \\ 
-        80  & $2,581569 \cdot 10^{-3}$ &  $1,9151171$  & $3,931040 \cdot 10^{-3}$ &  $1,9930199$ \\ 
-        160 & $1,319515 \cdot 10^{-3}$ &  $1,9564529$  & $1,968850 \cdot 10^{-3}$ &  $1,9966173$ \\ 
-        320 & $6,673197 \cdot 10^{-4}$ &  $1,9773356$  & $9,967567 \cdot 10^{-4}$ &  $1,9752563$ \\ [1ex]
+        20  & $9,194187 \cdot 10^{-3}$ &  $0,5652038$  & $1,561894 \cdot 10^{-2}$ &  $0,3473366$ \\ 
+        40  & $4,944007 \cdot 10^{-3}$ &  $0,5377318$  & $7,834641 \cdot 10^{-3}$ &  $0,5016116$ \\ 
+        80  & $2,581569 \cdot 10^{-3}$ &  $0,5221613$  & $3,931040 \cdot 10^{-3}$ &  $0,5017511$ \\ 
+        160 & $1,319515 \cdot 10^{-3}$ &  $0,5111291$  & $1,968850 \cdot 10^{-3}$ &  $0,5008471$ \\ 
+        320 & $6,673197 \cdot 10^{-4}$ &  $0,5057310$  & $9,967567 \cdot 10^{-4}$ &  $0,5062634$ \\ [1ex]
 \hline
 \end{tabular}
 \caption{Fator de redução para o método de Euler implícito, com $T = 1$} 
@@ -499,7 +499,7 @@ Nessas condições, lembrando-se que $\lambda > \dfrac{1}{2}$ (considerando que 
     \label{fig:fonte_pontual}
 \end{figure}
 
-O erro máximo, com $T=1$, em função de $N$, pode ser visto na figura \ref{fig:2C_Fit_Erro}. Novamente, pode-se observar um comportamento exponencial decrescente para o erro, com fator de redução de aproximadamente 4, como na primeira tarefa.
+O erro máximo, com $T=1$, em função de $N$, pode ser visto na figura \ref{fig:2C_Fit_Erro}. Novamente, pode-se observar um comportamento exponencial decrescente para o erro, com fator de redução de aproximadamente $\dfrac{1}{4}$, como na primeira tarefa.
 
 
 \begin{figure}[ht!]
